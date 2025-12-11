@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import SectionHeading from "../../Component/Shared/SectionHeading";
 
 const Testimonials = () => {
     return (
@@ -7,14 +8,7 @@ const Testimonials = () => {
             <div className="max-w-11/12 mx-auto text-center">
 
                 {/* Heading */}
-                <motion.h2
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-3xl md:text-4xl font-bold text-secondary mb-10"
-                >
-                    Success Stories
-                </motion.h2>
+                <SectionHeading title="Success Stories" />
 
                 {/* 3 testimonials */}
                 <div className="grid md:grid-cols-3 gap-8">

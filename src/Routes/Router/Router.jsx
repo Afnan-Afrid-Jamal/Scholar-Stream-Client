@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router";
-import Navbar from "../../Component/Shared/Navbar";
 import MainLayout from "../../Layouts/MainLayout";
 import ErrorPage from "../../Pages/Error Page/ErrorPage";
 import Home from "../../Pages/Home/Home";
+import AllScholarships from "../../Pages/All Scholarships/AllScholarships";
 
 export const router = createBrowserRouter([
     {
@@ -11,9 +11,13 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home></Home>,
+                element: <Home />,
             },
-        ]
+            {
+                path: "all-scholarships",
+                element: <AllScholarships />,
+            },
+        ],
     },
     {
         path: "*",
