@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaGoogle } from 'react-icons/fa6';
 import { uploadImage } from '../../Utils';
 
 const Register = () => {
 
+    const [photoURL, setPhotoURL] = useState("")
+
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
         const url = await uploadImage(file);
+        setPhotoURL(url);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const name = event.target.name.value;
+        const email = event.target.email.value;;
+        const role = "Student";
+
+        const registerFormData = {
+            name, email, photoURL, role
+        }
+        console.log(registerFormData)
     };
 
     return (
@@ -24,21 +35,21 @@ const Register = () => {
                 {/* Name */}
                 <div className="flex flex-col gap-1">
                     <label className="text-sm font-semibold text-neutral/80">Full Name</label>
-                    <input type="text" placeholder="John Doe" required
+                    <input type="text" placeholder="John Doe" name="name" required
                         className="h-11 rounded-lg border border-neutral/30 bg-base-100 px-4 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition text-neutral" />
                 </div>
 
                 {/* Email */}
                 <div className="flex flex-col gap-1">
                     <label className="text-sm font-semibold text-neutral/80">Email Address</label>
-                    <input type="email" placeholder="example@email.com" required
+                    <input type="email" name="email" placeholder="example@email.com" required
                         className="h-11 rounded-lg border border-neutral/30 bg-base-100 px-4 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition text-neutral" />
                 </div>
 
                 {/* Photo Upload */}
                 <div className="flex flex-col gap-1">
                     <label className="text-sm font-semibold text-neutral/80">Upload Photo</label>
-                    <input type="file" className="file-input file-input-primary w-full" onChange={handleImageUpload} />
+                    <input type="file" name="photoURL" className="file-input file-input-primary w-full" onChange={handleImageUpload} />
                 </div>
 
                 {/* Password */}
