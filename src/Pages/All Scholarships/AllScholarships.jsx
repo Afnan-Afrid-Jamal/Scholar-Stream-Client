@@ -4,6 +4,7 @@ import LoadingSpinner from '../../Component/Shared/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { BsDatabaseExclamation } from 'react-icons/bs';
+import { Link } from 'react-router';
 
 const AllScholarships = () => {
     const [displayScholarships, setDisplayScholarships] = useState([]);
@@ -147,9 +148,9 @@ const AllScholarships = () => {
                                 <p className="text-gray-600">Category: {scholarship.scholarshipCategory}</p>
                                 <p className="text-gray-600">Degree: {scholarship.degree}</p>
                                 <p className="text-gray-600 mb-4">Application Fees: ${scholarship.applicationFees}</p>
-                                <button className="mt-auto w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                                <Link to={`/scholarship-details/${scholarship._id}`} className="mt-auto w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
                                     View Details
-                                </button>
+                                </Link>
                             </div>
                         ))}
                     </div>

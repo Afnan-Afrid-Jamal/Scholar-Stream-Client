@@ -4,6 +4,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import SectionHeading from "../../Component/Shared/SectionHeading";
 import LoadingSpinner from "../../Component/Shared/LoadingSpinner";
+import { Link } from "react-router";
 
 const TopSixScholarships = () => {
     const { data: topSixScholarships, isLoading, error } = useQuery({
@@ -52,13 +53,13 @@ const TopSixScholarships = () => {
                         <p className="text-gray-600 mb-1">Category: {scholarship.scholarshipCategory}</p>
                         <p className="text-gray-600 mb-3">Application Fees: ${scholarship.applicationFees}</p>
 
-                        <button className="mt-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        <Link to={`/scholarship-details/${scholarship._id}`} className="mt-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
                             View Details
-                        </button>
+                        </Link>
                     </motion.div>
                 ))}
             </div>
-        </div>
+        </div >
     );
 };
 

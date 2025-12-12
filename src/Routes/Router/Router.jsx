@@ -3,6 +3,7 @@ import MainLayout from "../../Layouts/MainLayout";
 import ErrorPage from "../../Pages/Error Page/ErrorPage";
 import Home from "../../Pages/Home/Home";
 import AllScholarships from "../../Pages/All Scholarships/AllScholarships";
+import ScholarshipDetails from "../../Pages/Scholarship Details/ScholarshipDetails";
 
 export const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
             {
                 path: "all-scholarships",
                 element: <AllScholarships />,
+            },
+            {
+                path: "scholarship-details/:id",
+                element: <ScholarshipDetails></ScholarshipDetails>,
             },
         ],
     },
