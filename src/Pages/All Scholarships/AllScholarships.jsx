@@ -83,7 +83,7 @@ const AllScholarships = () => {
                         name="searchScholarship"
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
-                        className="flex-1 px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-4 py-3 border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <button
                         type="submit"
@@ -108,7 +108,7 @@ const AllScholarships = () => {
 
                 <select
                     onChange={handleCategoryChange}
-                    className="px-4 py-3 rounded-lg border border-gray-300 bg-white w-full md:w-60 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-4 py-3 rounded-lg border border-blue-400 bg-white w-full md:w-60 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="">All Categories</option>
                     <option value="Full fund">Full Fund</option>
@@ -136,7 +136,7 @@ const AllScholarships = () => {
                         {currentItems.map((scholarship) => (
                             <div
                                 key={scholarship._id}
-                                className="bg-white rounded-xl shadow-md hover:shadow-xl transition p-5 flex flex-col"
+                                className="bg-white rounded-xl shadow-md hover:shadow-xl transition p-5 flex flex-col border border-blue-300"
                             >
                                 <img
                                     src={scholarship.universityImage}
@@ -148,7 +148,7 @@ const AllScholarships = () => {
                                 <p className="text-gray-600">Category: {scholarship.scholarshipCategory}</p>
                                 <p className="text-gray-600">Degree: {scholarship.degree}</p>
                                 <p className="text-gray-600 mb-4">Application Fees: ${scholarship.applicationFees}</p>
-                                <Link to={`/scholarship-details/${scholarship._id}`} className="mt-auto w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                                <Link to={`/scholarship-details/${scholarship._id}`} className="mt-auto w-full bg-blue-600 text-white  text-center py-2 rounded-lg hover:bg-blue-700">
                                     View Details
                                 </Link>
                             </div>

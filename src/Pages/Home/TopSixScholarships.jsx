@@ -34,7 +34,7 @@ const TopSixScholarships = () => {
                 {topSixScholarships.map((scholarship) => (
                     <motion.div
                         key={scholarship._id}
-                        className="bg-blue-50 rounded-lg shadow p-4 hover:shadow-lg transition-shadow flex flex-col h-full"
+                        className="border border-blue-400 rounded-lg shadow p-4 hover:shadow-lg transition-shadow flex flex-col h-full"
                         whileHover={{ scale: 1.05 }}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ const TopSixScholarships = () => {
                         <p className="text-gray-600 mb-1">Category: {scholarship.scholarshipCategory}</p>
                         <p className="text-gray-600 mb-3">Application Fees: ${scholarship.applicationFees}</p>
 
-                        <Link to={`/scholarship-details/${scholarship._id}`} className="mt-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        <Link to={`/scholarship-details/${scholarship._id}`} className="mt-auto bg-blue-600 text-white text-center px-4 py-2 rounded hover:bg-blue-700 transition">
                             View Details
                         </Link>
                     </motion.div>
