@@ -103,8 +103,8 @@ const Navbar = () => {
 
                 {/* RIGHT: LOGIN / REGISTER (DESKTOP) */}
                 <div className="navbar-end hidden lg:flex gap-3">
-                    <Link className="btn">Login</Link>
-                    <Link className="btn">Register</Link>
+                    <Link to="/login" className="btn">Login</Link>
+                    <Link to="/register" className="btn">Register</Link>
                 </div>
 
             </div>
