@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FaGoogle } from 'react-icons/fa6';
+import { AuthContext } from '../../Provider/AuthContext';
+import { Link } from 'react-router';
 
 const Login = () => {
+
+    const { user, customGoogleSignIn, customLoginWithEmailAndPassword } = useContext(AuthContext);
+
+    // Google SignIn
+    const handleGoogleSignIn = () => {
+
+        customGoogleSignIn()
+
+    }
+    // Email,Password SignIn
+    const handleSignInWithForm = (event) => {
+
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+        customLoginWithEmailAndPassword(email, password)
+        console.log(user)
+
+    }
+
+
+
     return (
 
 
@@ -11,7 +35,7 @@ const Login = () => {
                 Welcome Back
             </h2>
 
-            <form className="flex flex-col gap-5">
+            <form onSubmit={() => handleSignInWithForm(event)} className="flex flex-col gap-5">
 
                 {/* Email */}
                 <div className="flex flex-col gap-1">
@@ -20,6 +44,7 @@ const Login = () => {
                     </label>
                     <input
                         type="email"
+                        name='email'
                         placeholder="example@email.com"
                         className="h-11 rounded-lg border border-neutral/30 bg-base-100 
                             px-4 focus:outline-none focus:border-primary 
@@ -35,6 +60,7 @@ const Login = () => {
                     </label>
                     <input
                         type="password"
+                        name='password'
                         placeholder="password"
                         className="h-11 rounded-lg border border-neutral/30 bg-base-100 
                             px-4 focus:outline-none focus:border-primary 
@@ -45,11 +71,12 @@ const Login = () => {
 
                 {/* Button */}
                 <button
+                    type='submit'
                     className="h-11 rounded-lg bg-primary text-white font-semibold 
                         shadow hover:bg-primary/90 active:scale-95 transition">
                     Login
                 </button>
-                <button
+                <button onClick={handleGoogleSignIn}
                     className="h-11 w-full flex items-center justify-center gap-3 
              rounded-lg border border-neutral/30 bg-base-100 
              text-neutral font-medium shadow-sm 
@@ -62,6 +89,12 @@ const Login = () => {
 
 
             </form>
+            <p className="text-center text-gray-600 dark:text-gray-400 mt-4">
+                Don't have an account?{' '}
+                <Link to="/register" className="text-blue-500 font-semibold underline">
+                    Register here
+                </Link>
+            </p>
 
         </div>
 

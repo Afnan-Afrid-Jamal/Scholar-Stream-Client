@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
-import app from "../Firebase/firebase.config";
-import LoadingSpinner from "../Components/LoadingSpinner";
-import SweetAlert from "../Components/SweetAlert";
+import app from "../../Firebase/firebase.config.js";
+import LoadingSpinner from "../Component/Shared/LoadingSpinner.jsx";
+import SweetAlert from "../Component/Shared/SweetAlert.jsx";
 
 const AuthProvider = ({ children }) => {
     const auth = getAuth(app);
@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
                 // Update Profile with direct parameters
                 return updateProfile(newUser, {
                     displayName: userName,
-                    photoURL: userPhotoUrl || "https://i.ibb.co.com/RGCchFdt/user-Images.png"
+                    photoURL: userPhotoUrl
                 })
                     .then(() => {
                         successAlert("Your registration is complete. Enjoy your journey with us!")
@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
                         const updatedUser = {
                             ...newUser,
                             displayName: userName,
-                            photoURL: userPhotoUrl || "https://i.ibb.co.com/RGCchFdt/user-Images.png"
+                            photoURL: userPhotoUrl
                         };
                         setUser(updatedUser);
 

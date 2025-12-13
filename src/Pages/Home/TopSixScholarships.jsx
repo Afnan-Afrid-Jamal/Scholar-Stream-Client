@@ -17,11 +17,6 @@ const TopSixScholarships = () => {
         },
     });
 
-    useEffect(() => {
-        if (topSixScholarships) {
-            console.log("Top 6 Scholarships:", topSixScholarships);
-        }
-    }, [topSixScholarships]);
 
     if (isLoading) return <LoadingSpinner></LoadingSpinner>;
     if (error) return <p>Error loading scholarships</p>;

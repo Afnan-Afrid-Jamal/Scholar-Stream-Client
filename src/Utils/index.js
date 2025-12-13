@@ -1,5 +1,4 @@
 import axios from "axios";
-import axiosSecure from "./axiosSecure";
 
 export const uploadImage = async (imageFile) => {
   if (!imageFile) return null;
@@ -20,7 +19,7 @@ export const uploadImage = async (imageFile) => {
 
 export const registerUser = async ({ name, email, photoURL, role }) => {
   try {
-    const res = await axiosSecure.post("/register", {
+    const res = await axios.post("/register", {
       name,
       email,
       photoURL,
