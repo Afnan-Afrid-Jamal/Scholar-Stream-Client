@@ -6,6 +6,12 @@ import AllScholarships from "../../Pages/All Scholarships/AllScholarships";
 import ScholarshipDetails from "../../Pages/Scholarship Details/ScholarshipDetails";
 import Login from "../../Pages/Login/Login";
 import Register from "../../Pages/Register/Register";
+import DashboardLayout from "../../Layouts/DashboardLayout";
+import MyProfile from "../../Pages/Dashboard/MyProfile";
+import AddScholarship from "../../Pages/Dashboard/AddScholarship";
+import ManageScholarships from "../../Pages/Dashboard/ManageScholarships";
+import ManageUsers from "../../Pages/Dashboard/ManageUsers";
+import Analytics from "../../Pages/Dashboard/Analytics";
 
 export const router = createBrowserRouter([
     {
@@ -33,6 +39,32 @@ export const router = createBrowserRouter([
                 element: <Register></Register>,
             },
         ],
+    },
+    {
+        path: "/dashboard",
+        element: <DashboardLayout></DashboardLayout>,
+        children: [
+            {
+                path: "my-profile",
+                element: <MyProfile></MyProfile>
+            },
+            {
+                path: "add-scholarship",
+                element: <AddScholarship></AddScholarship>
+            },
+            {
+                path: "manage-scholarships",
+                element: <ManageScholarships></ManageScholarships>
+            },
+            {
+                path: "manage-users",
+                element: <ManageUsers></ManageUsers>
+            },
+            {
+                path: "analytics",
+                element: <Analytics></Analytics>
+            },
+        ]
     },
     {
         path: "*",

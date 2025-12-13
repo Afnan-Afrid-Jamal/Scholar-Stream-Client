@@ -3,6 +3,7 @@ import { FaGoogle } from 'react-icons/fa6';
 import { uploadImage } from '../../Utils';
 import { AuthContext } from '../../Provider/AuthContext';
 import { Link } from 'react-router';
+import axios from 'axios';
 
 const Register = () => {
 
@@ -17,28 +18,48 @@ const Register = () => {
         setPhotoURL(url);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const name = event.target.name.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
-        const role = "Student";
 
         const registerFormData = {
-            name, email, photoURL, role
+            name, email, photoURL
         }
 
-        customCreateUserWithEmailAndPassword(email, password, name, photoURL);
+        try {
+            await customCreateUserWithEmailAndPassword(email, password, name, photoURL);
+            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, registerFormData);
+        } catch (error) {
+            console.log(error);
+        }
 
     };
 
 
     // Google SignUp
-    const handleGoogleSignUp = () => {
+    const handleGoogleSignUp = async () => {
 
-        customGoogleSignIn()
+        try {
+            await customGoogleSignIn()
+
+            const name = user.displayName;
+            const email = user.email;
+            const photoURL = user.photoURL;
+
+
+            const registerFormData = {
+                name, email, photoURL
+            }
+
+            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, registerFormData);
+        } catch (error) {
+            console.log(error);
+        }
 
     }
+
 
     return (
         <div className="max-w-11/12 mx-auto bg-base-100 shadow-xl rounded-2xl p-8 md:p-10 w-full max-w-md">

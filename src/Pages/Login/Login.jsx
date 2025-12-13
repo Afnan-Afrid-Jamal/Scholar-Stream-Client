@@ -2,15 +2,33 @@ import React, { useContext } from 'react';
 import { FaGoogle } from 'react-icons/fa6';
 import { AuthContext } from '../../Provider/AuthContext';
 import { Link } from 'react-router';
+import axios from 'axios';
 
 const Login = () => {
 
     const { user, customGoogleSignIn, customLoginWithEmailAndPassword } = useContext(AuthContext);
 
     // Google SignIn
-    const handleGoogleSignIn = () => {
+    const handleGoogleSignIn = async () => {
 
-        customGoogleSignIn()
+        try {
+            customGoogleSignIn()
+
+            const name = user.displayName;
+            const email = user.email;
+            const photoURL = user.photoURL;
+
+
+            const registerFormData = {
+
+                name, email, photoURL
+
+            }
+
+            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, registerFormData);
+        } catch (error) {
+            console.log(error);
+        }
 
     }
     // Email,Password SignIn
@@ -18,6 +36,7 @@ const Login = () => {
 
         const email = event.target.email.value;
         const password = event.target.password.value;
+
 
         customLoginWithEmailAndPassword(email, password)
         console.log(user)
@@ -78,8 +97,7 @@ const Login = () => {
                 </button>
                 <button onClick={handleGoogleSignIn}
                     className="h-11 w-full flex items-center justify-center gap-3 
-             rounded-lg border border-neutral/30 bg-base-100 
-             text-neutral font-medium shadow-sm 
+             rounded-lg border border-neutral/30 bg-base-100 font-medium shadow-sm 
              hover:border-primary text-primary hover:shadow-md
              active:scale-95 transition-all hover: cursor-pointer">
 
