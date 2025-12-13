@@ -2,6 +2,7 @@ import React from 'react';
 import { CgProfile } from 'react-icons/cg';
 import { HiOutlineAcademicCap, HiOutlineChartBar, HiOutlineUsers } from 'react-icons/hi';
 import { IoMdAddCircleOutline } from 'react-icons/io';
+import { IoHomeOutline } from 'react-icons/io5';
 import { Link, Outlet } from 'react-router';
 
 const DashboardLayout = () => {
@@ -27,6 +28,13 @@ const DashboardLayout = () => {
                     {/* Sidebar content here */}
                     <ul className="menu w-full grow">
                         {/* List item */}
+                        <li>
+                            <Link to="/" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
+                                {/* Home icon */}
+                                <IoHomeOutline size={30} />
+                                <span className="is-drawer-close:hidden">Home</span>
+                            </Link>
+                        </li>
                         <li>
                             <Link to="/dashboard/my-profile" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
                                 {/* Home icon */}
@@ -59,7 +67,7 @@ const DashboardLayout = () => {
                             <Link to="/dashboard/analytics" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
                                 {/* Home icon */}
                                 <HiOutlineChartBar size={30} />
-                                <span className="is-drawer-close:hidden">Analytics</span>
+                                <span className="is-drawer-close:hidden">Manage Users</span>
                             </Link>
                         </li>
                     </ul>
