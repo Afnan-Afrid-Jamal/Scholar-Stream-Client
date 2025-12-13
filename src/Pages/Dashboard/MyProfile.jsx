@@ -68,7 +68,7 @@ const MyProfile = () => {
                             <div>
                                 <p className="text-gray-500 text-sm">Role</p>
                                 <span className="text-white bg-blue-500 px-3 py-1 rounded-full text-sm font-medium">
-                                    {userData.role}
+                                    {userData?.role}
                                 </span>
                             </div>
                         </div>
