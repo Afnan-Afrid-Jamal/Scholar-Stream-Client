@@ -61,9 +61,9 @@ const AddScholarship = () => {
                     </div>
 
                     {/* University Image */}
-                    <div>
+                    <div className="flex flex-col">
                         <label className="label font-medium">University Image (URL)</label>
-                        <input type="url" name="universityImage" className="input input-bordered w-full" required />
+                        <input type="file" className="file-input w-full file-input-md" />
                     </div>
 
                     {/* Country */}
