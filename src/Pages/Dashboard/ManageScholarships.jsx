@@ -1,18 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import useAxiosSecure from '../../Hooks/useAxiosSecure'; // আপনার কাস্টম হুক
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
-import { uploadImage } from '../../Utils'; // আপনার ইমেজ আপলোড ফাংশন
+import { uploadImage } from '../../Utils';
+import Swal from 'sweetalert2';
 
 const ManageScholarships = () => {
     const axiosSecure = useAxiosSecure();
     const [showData, setShowData] = useState([]);
 
-    // ⚠️ photo স্টেটটি এখানে অপ্রয়োজনীয়, কারণ ইমেজ URL সরাসরি ফর্ম এবং লজিকের মাধ্যমে হ্যান্ডেল করা হবে।
-    // const [photo, setPhoto] = useState() 
 
     useEffect(() => {
-        // সকল স্কলারশিপ ডেটা ফেচ করা হচ্ছে
+
         axios.get(`${import.meta.env.VITE_API_BASE_URL}/allScholarships`)
             .then(res => setShowData(res.data))
             .catch(err => console.error(err));
@@ -22,31 +21,29 @@ const ManageScholarships = () => {
         event.preventDefault();
         const form = event.target;
 
-        // 1. ইমেজ হ্যান্ডলিং লজিক
         const fileInput = form.imageFile.files[0];
 
-        // বিদ্যমান URL ইনপুট থেকে মান নেওয়া হচ্ছে (যদি ফাইল আপলোড না হয়, তবে এটি ব্যবহৃত হবে)
         let finalImageUrl = form.universityImage.value || currentImageUrl;
 
         if (fileInput) {
             toast.info("Uploading new image...");
 
-            // 💡 ফাইল আপলোড করা হচ্ছে
+
             const newPhotoURL = await uploadImage(fileInput);
 
             if (newPhotoURL) {
-                finalImageUrl = newPhotoURL; // নতুন ছবি আপলোড সফল
+                finalImageUrl = newPhotoURL;
             } else {
                 toast.error("New image upload failed. Using existing URL.");
-                // আপলোড ব্যর্থ হলে বিদ্যমান URL (finalImageUrl) অপরিবর্তিত থাকবে
+
             }
         }
 
-        // 2. Updated Data অবজেক্ট তৈরি করা
+
         const updatedData = {
             scholarshipName: form.scholarshipName.value,
             universityName: form.universityName.value,
-            // 💡 finalImageUrl ব্যবহার করা হচ্ছে
+
             universityImage: finalImageUrl,
             universityCountry: form.universityCountry.value,
             universityCity: form.universityCity.value,
@@ -62,7 +59,7 @@ const ManageScholarships = () => {
             postedUserEmail: form.postedUserEmail.value,
         };
 
-        // 3. API কল
+
         try {
             const res = await axiosSecure.put(`${import.meta.env.VITE_API_BASE_URL}/updateScholarship/${id}`, updatedData)
 
@@ -72,7 +69,6 @@ const ManageScholarships = () => {
                 toast.warn("No changes detected or update failed.");
             }
 
-            // সফল হলে পেজ রিলোড করা হচ্ছে
             window.location.reload();
 
         } catch (err) {
@@ -80,6 +76,43 @@ const ManageScholarships = () => {
             toast.error("Failed to update scholarship. Please try again!");
         }
     };
+
+    // Delete scholarship
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`${import.meta.env.VITE_API_BASE_URL}/delete-scholarship/${id}`)
+                    .then(res => {
+                        // console.log(res.data);
+                        if (res.data.deletedCount > 0) {
+                            toast.success("Scholarship deleted successfully!");
+                            setShowData(prevData => prevData.filter(scholarship => scholarship._id !== id));
+
+                        } else {
+                            toast.error("Failed to delete scholarship or item not found.");
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        toast.error("An error occurred during deletion!");
+                    });
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
+    }
 
     return (
         <div className="p-6 bg-base-100 rounded-xl shadow-md overflow-x-auto">
@@ -259,7 +292,7 @@ const ManageScholarships = () => {
                                 </td>
 
                                 <td className="text-center">
-                                    <button className="btn btn-xs btn-outline btn-error hover:bg-error hover:text-white transition duration-150">Delete</button>
+                                    <button onClick={() => handleDelete(scholarship._id)} className="btn btn-xs btn-outline btn-error hover:bg-error hover:text-white transition duration-150">Delete</button>
                                 </td>
                             </tr>
                         ))}
