@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import LoadingSpinner from '../../Component/Shared/LoadingSpinner';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../../Provider/AuthContext';
 
 const ManageUsers = () => {
+
+    const { user } = useContext(AuthContext);
+    const [currentLoginUser, setCurrentLoginUser] = useState(user);
 
     const [role, setRole] = useState("all");
     const [showData, setShowData] = useState([]);
@@ -40,6 +46,29 @@ const ManageUsers = () => {
                 });
         }
     };
+
+
+    // Update role
+    const handleUpdateRole = (e, id, currentRole) => {
+        const newRole = e.target.value;
+
+        if (newRole === currentRole)
+            return;
+
+        axios.patch(`${import.meta.env.VITE_API_BASE_URL}/updateRole`, { id, role: newRole })
+            .then(() => {
+                toast.success(`Role changed to ${newRole}`);
+                setShowData(prev => prev.map(user =>
+                    user._id === id ? { ...user, role: newRole } : user
+                ));
+            })
+            .catch(() => {
+                toast.error("Failed to update role");
+            });
+    };
+
+
+
 
     // Delete user
     const handleDeleteUser = (id) => {
@@ -93,19 +122,30 @@ const ManageUsers = () => {
                                 <th>Role</th>
                                 <th>Created At</th>
                                 <th>Last Login</th>
+                                <th className="text-center">Update Role</th>
                                 <th className="text-center">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             {showData.map((user, index) => (
                                 <tr key={user._id}>
-                                    <th>{index + 1}</th>
+                                    <th className={`${user.email === currentLoginUser.email ? "text-red-400" : ""
+                                        }`}>{index + 1}</th>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>
-                                        <span className="badge badge-outline capitalize">
+                                        <span
+                                            className={`badge badge-outline capitalize ${user.role === "Admin"
+                                                ? "badge-error"
+                                                : user.role === "Moderator"
+                                                    ? "badge-success"
+                                                    : "badge-primary"
+                                                }`}
+                                        >
                                             {user.role}
                                         </span>
+
+
                                     </td>
                                     <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                                     <td>
@@ -114,10 +154,28 @@ const ManageUsers = () => {
                                             : <span className="text-gray-400">Never</span>}
                                     </td>
                                     <td className="text-center">
+
+                                        <select
+                                            onChange={(event) => handleUpdateRole(event, user._id, user.role)}
+                                            className="select select-bordered select-sm"
+                                            defaultValue={user.role}
+                                        >
+                                            <option value="Admin">Admin</option>
+                                            <option value="Moderator">Moderator</option>
+                                            <option value="Student">Student</option>
+                                        </select>
+
+
+
+                                    </td>
+                                    <td className="text-center">
+
                                         <button onClick={() => handleDeleteUser(user._id)} className="btn btn-xs btn-error btn-outline">
                                             Delete
                                         </button>
+
                                     </td>
+
                                 </tr>
                             ))}
                         </tbody>
