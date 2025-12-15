@@ -37,28 +37,28 @@ const Register = () => {
 
     };
 
-
-    // Google SignUp
+    //Google signup
     const handleGoogleSignUp = async () => {
-
         try {
-            await customGoogleSignIn()
-
-            const name = user.displayName;
-            const email = user.email;
-            const photoURL = user.photoURL;
-
+            const result = await customGoogleSignIn();
+            const googleUser = result.user;
 
             const registerFormData = {
-                name, email, photoURL
-            }
+                name: googleUser.displayName,
+                email: googleUser.email,
+                photoURL: googleUser.photoURL,
+            };
 
-            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, registerFormData);
+            await axios.post(
+                `${import.meta.env.VITE_API_BASE_URL}/register`,
+                registerFormData
+            );
+
         } catch (error) {
             console.log(error);
         }
+    };
 
-    }
 
 
     return (

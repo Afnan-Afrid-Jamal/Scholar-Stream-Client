@@ -8,29 +8,29 @@ const Login = () => {
 
     const { user, customGoogleSignIn, customLoginWithEmailAndPassword } = useContext(AuthContext);
 
-    // Google SignIn
+
+    // Google signin
     const handleGoogleSignIn = async () => {
-
         try {
-            customGoogleSignIn()
-
-            const name = user.displayName;
-            const email = user.email;
-            const photoURL = user.photoURL;
-
+            const result = await customGoogleSignIn();   // 🔥 await
+            const googleUser = result.user;              // 🔥 direct user
 
             const registerFormData = {
+                name: googleUser.displayName,
+                email: googleUser.email,
+                photoURL: googleUser.photoURL,
+            };
 
-                name, email, photoURL
+            await axios.post(
+                `${import.meta.env.VITE_API_BASE_URL}/register`,
+                registerFormData
+            );
 
-            }
-
-            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, registerFormData);
         } catch (error) {
             console.log(error);
         }
+    };
 
-    }
     // Email,Password SignIn
     const handleSignInWithForm = (event) => {
 

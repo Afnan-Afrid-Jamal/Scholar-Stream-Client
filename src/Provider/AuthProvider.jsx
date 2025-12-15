@@ -41,7 +41,9 @@ const AuthProvider = ({ children }) => {
             .catch((error) => {
                 errorAlert(error.message);
                 setLoading(false);
+                throw error; // 🔥 must
             });
+
     };
 
 
@@ -49,21 +51,24 @@ const AuthProvider = ({ children }) => {
     // Google SignIn
     const customGoogleSignIn = () => {
         const provider = new GoogleAuthProvider();
-
         setLoading(true);
 
-        // return add kora holo
         return signInWithPopup(auth, provider)
             .then((result) => {
                 const user = result.user;
                 setUser(user);
                 setLoading(false);
 
-                successAlert(`Hello ${user.displayName || "User"}! Great to have you back. Enjoy your journey with us!`);
+                successAlert(
+                    `Hello ${user.displayName || "User"}! Great to have you back.`
+                );
+
+                return result;
             })
             .catch((error) => {
                 setLoading(false);
                 errorAlert(error.message);
+                throw error;
             });
     };
 
@@ -76,39 +81,40 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-
                 const user = userCredential.user;
                 setUser(user);
-                setLoading(false)
-                successAlert(`Welcome back, ${user.displayName || "User"}! You are logged in successfully.`);
-
-
+                setLoading(false);
+                successAlert(`Welcome back, ${user.displayName || "User"}!`);
+                return user; // 
             })
+
             .catch((error) => {
-                setLoading(false)
                 errorAlert(error.message);
+                setLoading(false);
+                throw error;
             });
+
 
 
     }
 
 
     // Forget Password
-    const handleForgetPassword = (email) => {
-        const auth = getAuth();
-        if (!email) {
-            errorAlert("Please enter your email to reset the password.");
-        }
-        sendPasswordResetEmail(auth, email)
-            .then(() => {
-                successAlert(`A password reset link has been sent to your email(${email})`);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                errorAlert(errorCode, errorMessage);
-            });
-    }
+    // const handleForgetPassword = (email) => {
+    //     const auth = getAuth();
+    //     if (!email) {
+    //         errorAlert("Please enter your email to reset the password.");
+    //     }
+    //     sendPasswordResetEmail(auth, email)
+    //         .then(() => {
+    //             successAlert(`A password reset link has been sent to your email(${email})`);
+    //         })
+    //         .catch((error) => {
+    //             const errorCode = error.code;
+    //             const errorMessage = error.message;
+    //             errorAlert(errorCode, errorMessage);
+    //         });
+    // }
 
 
 
@@ -145,7 +151,7 @@ const AuthProvider = ({ children }) => {
         customCreateUserWithEmailAndPassword,
         customGoogleSignIn,
         customLoginWithEmailAndPassword,
-        handleForgetPassword,
+        // handleForgetPassword,
         handleLogout,
     };
 
