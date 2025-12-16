@@ -7,6 +7,7 @@ import { Link, Outlet } from 'react-router';
 import { AuthContext } from '../Provider/AuthContext';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { MdOutlineReviews } from 'react-icons/md';
 
 const DashboardLayout = () => {
 
@@ -91,6 +92,13 @@ const DashboardLayout = () => {
                                 {/* Home icon */}
                                 <HiOutlineChartBar size={30} />
                                 <span className="is-drawer-close:hidden">Analytics</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/dashboard/all-reviews" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Reviews">
+                                {/* Home icon */}
+                                <MdOutlineReviews size={30} />
+                                <span className="is-drawer-close:hidden">Reviews</span>
                             </Link>
                         </li>
                     </ul>

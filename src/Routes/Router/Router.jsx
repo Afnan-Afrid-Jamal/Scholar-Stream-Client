@@ -12,6 +12,7 @@ import AddScholarship from "../../Pages/Dashboard/AddScholarship";
 import ManageScholarships from "../../Pages/Dashboard/ManageScholarships";
 import ManageUsers from "../../Pages/Dashboard/ManageUsers";
 import Analytics from "../../Pages/Dashboard/Analytics";
+import AllReviews from "../../Pages/Dashboard/AllReviews";
 
 export const router = createBrowserRouter([
     {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
             {
                 path: "analytics",
                 element: <Analytics></Analytics>
+            },
+            {
+                path: "all-reviews",
+                element: <AllReviews></AllReviews>
             },
         ]
     },
