@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import LoadingSpinner from '../../Component/Shared/LoadingSpinner';
@@ -8,6 +8,35 @@ import { FaUniversity, FaStar } from 'react-icons/fa';
 import { MdAttachMoney } from 'react-icons/md';
 
 const ScholarshipDetails = () => {
+
+    const navigate = useNavigate();
+
+    const handleApplyBtn = async (id, email) => {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/create-checkout-session`, {
+                scholarshipId: id,
+                userEmail: email,
+            });
+
+            if (res.data.url) {
+                window.location.href = res.data.url; // Stripe checkout page
+            } else {
+                alert("Failed to create Stripe session.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error while creating checkout session.");
+        }
+    };
+
+
+
+
+
+
+
+
+
     const { id } = useParams();
 
     // Scholarship details fetch
@@ -79,9 +108,13 @@ const ScholarshipDetails = () => {
                     </div>
 
                     {/* Apply Button */}
-                    <button className="mt-6 w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-all text-lg font-semibold">
+                    <button
+                        onClick={() => handleApplyBtn(scholarship._id, scholarship.postedUserEmail, scholarship.applicationFees)}
+                        className="mt-6 w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-all text-lg font-semibold"
+                    >
                         Apply Now
                     </button>
+
                 </div>
             </div>
 

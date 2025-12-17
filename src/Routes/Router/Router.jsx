@@ -13,6 +13,9 @@ import ManageScholarships from "../../Pages/Dashboard/ManageScholarships";
 import ManageUsers from "../../Pages/Dashboard/ManageUsers";
 import Analytics from "../../Pages/Dashboard/Analytics";
 import AllReviews from "../../Pages/Dashboard/AllReviews";
+import CheckoutPage from "../../Pages/Payment/Checkout Page/CheckoutPage";
+import PaymentSuccessPage from "../../Pages/Payment/Payment Success Page/PaymentSuccessPage";
+import PaymentFailedPage from "../../Pages/Payment/Payment Failed Page/PaymentFailedPage";
 
 export const router = createBrowserRouter([
     {
@@ -39,12 +42,25 @@ export const router = createBrowserRouter([
                 path: "register",
                 element: <Register></Register>,
             },
+            {
+                path: "payment-success/:id",
+                element: <PaymentSuccessPage />,
+            },
+            {
+                path: "payment-cancelled/:id",
+                element: <PaymentFailedPage />,
+            },
+
         ],
     },
     {
         path: "/dashboard",
         element: <DashboardLayout></DashboardLayout>,
         children: [
+            {
+                index: true,
+                element: <MyProfile></MyProfile>
+            },
             {
                 path: "my-profile",
                 element: <MyProfile></MyProfile>
