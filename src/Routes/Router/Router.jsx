@@ -13,9 +13,9 @@ import ManageScholarships from "../../Pages/Dashboard/ManageScholarships";
 import ManageUsers from "../../Pages/Dashboard/ManageUsers";
 import Analytics from "../../Pages/Dashboard/Analytics";
 import AllReviews from "../../Pages/Dashboard/AllReviews";
-import CheckoutPage from "../../Pages/Payment/Checkout Page/CheckoutPage";
 import PaymentSuccessPage from "../../Pages/Payment/Payment Success Page/PaymentSuccessPage";
 import PaymentFailedPage from "../../Pages/Payment/Payment Failed Page/PaymentFailedPage";
+import MyReviews from "../../Pages/Dashboard/MyReviews";
 
 export const router = createBrowserRouter([
     {
@@ -84,6 +84,10 @@ export const router = createBrowserRouter([
             {
                 path: "all-reviews",
                 element: <AllReviews></AllReviews>
+            },
+            {
+                path: "my-reviews",
+                element: <MyReviews></MyReviews>
             },
         ]
     },

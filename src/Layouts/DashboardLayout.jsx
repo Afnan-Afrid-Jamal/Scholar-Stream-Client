@@ -101,6 +101,13 @@ const DashboardLayout = () => {
                                 <span className="is-drawer-close:hidden">Reviews</span>
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/dashboard/my-reviews" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Reviews">
+                                {/* Home icon */}
+                                <MdOutlineReviews size={30} />
+                                <span className="is-drawer-close:hidden">My Reviews</span>
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             </div>

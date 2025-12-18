@@ -19,7 +19,7 @@ const ScholarshipDetails = () => {
             });
 
             if (res.data.url) {
-                window.location.href = res.data.url; // Stripe checkout page
+                window.location.href = res.data.url;
             } else {
                 alert("Failed to create Stripe session.");
             }
