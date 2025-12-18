@@ -17,7 +17,7 @@ const DashboardLayout = () => {
         queryKey: ["userData", user?.email],
         queryFn: async () => {
             const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/user`, {
-                params: { email: user?.email }, // <-- query params
+                params: { email: user?.email },
             });
             return res.data;
         },
@@ -66,48 +66,79 @@ const DashboardLayout = () => {
                                 <span className="is-drawer-close:hidden">My Profile</span>
                             </Link>
                         </li>
-                        <li>
-                            <Link to="/dashboard/add-scholarship" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Scholarship">
-                                {/* Home icon */}
-                                <IoMdAddCircleOutline size={30} />
-                                <span className="is-drawer-close:hidden">Add Scholarship</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/manage-scholarships" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Scholarships">
-                                {/* Home icon */}
-                                <HiOutlineAcademicCap size={30} />
-                                <span className="is-drawer-close:hidden">Manage Scholarships</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/manage-users" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users">
-                                {/* Home icon */}
-                                <HiOutlineUsers size={30} />
-                                <span className="is-drawer-close:hidden">Manage Users</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/analytics" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Analytics">
-                                {/* Home icon */}
-                                <HiOutlineChartBar size={30} />
-                                <span className="is-drawer-close:hidden">Analytics</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/all-reviews" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Reviews">
-                                {/* Home icon */}
-                                <MdOutlineReviews size={30} />
-                                <span className="is-drawer-close:hidden">Reviews</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/my-reviews" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Reviews">
-                                {/* Home icon */}
-                                <MdOutlineReviews size={30} />
-                                <span className="is-drawer-close:hidden">My Reviews</span>
-                            </Link>
-                        </li>
+
+
+
+                        {
+                            userData?.role === 'Admin' &&
+                            <>
+                                <li>
+                                    <Link to="/dashboard/add-scholarship" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Scholarship">
+                                        {/* Home icon */}
+                                        <IoMdAddCircleOutline size={30} />
+                                        <span className="is-drawer-close:hidden">Add Scholarship</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/dashboard/manage-scholarships" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Scholarships">
+                                        {/* Home icon */}
+                                        <HiOutlineAcademicCap size={30} />
+                                        <span className="is-drawer-close:hidden">Manage Scholarships</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/dashboard/manage-users" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users">
+                                        {/* Home icon */}
+                                        <HiOutlineUsers size={30} />
+                                        <span className="is-drawer-close:hidden">Manage Users</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/dashboard/analytics" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Analytics">
+                                        {/* Home icon */}
+                                        <HiOutlineChartBar size={30} />
+                                        <span className="is-drawer-close:hidden">Analytics</span>
+                                    </Link>
+                                </li>
+                            </>
+
+                        }
+
+                        {
+                            userData?.role === 'Moderator' &&
+                            <>
+
+                                <li>
+                                    <Link to="/dashboard/all-reviews" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Reviews">
+                                        {/* Home icon */}
+                                        <MdOutlineReviews size={30} />
+                                        <span className="is-drawer-close:hidden">Reviews</span>
+                                    </Link>
+                                </li>
+
+                            </>
+                        }
+
+
+
+
+                        {
+
+                            userData?.role === 'Student' &&
+                            <>
+
+                                <li>
+                                    <Link to="/dashboard/my-reviews" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Reviews">
+                                        {/* Home icon */}
+                                        <MdOutlineReviews size={30} />
+                                        <span className="is-drawer-close:hidden">My Reviews</span>
+                                    </Link>
+                                </li>
+
+                            </>
+                        }
+
+
                     </ul>
                 </div>
             </div>
