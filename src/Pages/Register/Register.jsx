@@ -4,6 +4,7 @@ import { uploadImage } from '../../Utils';
 import { AuthContext } from '../../Provider/AuthContext';
 import { Link } from 'react-router';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Register = () => {
 
@@ -24,6 +25,32 @@ const Register = () => {
         const email = event.target.email.value;
         const password = event.target.password.value;
 
+        // Password Validation
+        if (password.length < 6) {
+            toast.error("Password must be at least 6 characters long");
+            return;
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            toast.error("Password must contain at least one uppercase letter");
+            return;
+        }
+
+        if (!/[a-z]/.test(password)) {
+            toast.error("Password must contain at least one lowercase letter");
+            return;
+        }
+
+        if (!/[0-9]/.test(password)) {
+            toast.error("Password must contain at least one number");
+            return;
+        }
+
+        if (!/[!@#$%^&*]/.test(password)) {
+            toast.error("Password must contain at least one special character");
+            return;
+        }
+
         const registerFormData = {
             name, email, photoURL
         }
@@ -34,8 +61,8 @@ const Register = () => {
         } catch (error) {
             console.log(error);
         }
-
     };
+
 
     //Google signup
     const handleGoogleSignUp = async () => {

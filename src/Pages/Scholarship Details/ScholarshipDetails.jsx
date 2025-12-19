@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -6,8 +6,11 @@ import LoadingSpinner from '../../Component/Shared/LoadingSpinner';
 import { BsCalendar3 } from 'react-icons/bs';
 import { FaUniversity, FaStar } from 'react-icons/fa';
 import { MdAttachMoney } from 'react-icons/md';
+import { AuthContext } from '../../Provider/AuthContext';
 
 const ScholarshipDetails = () => {
+
+    const { user } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -15,7 +18,7 @@ const ScholarshipDetails = () => {
         try {
             const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/create-checkout-session`, {
                 scholarshipId: id,
-                userEmail: email,
+                userEmail: user?.email,
             });
 
             if (res.data.url) {

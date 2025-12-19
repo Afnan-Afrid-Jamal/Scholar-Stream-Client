@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import logo from '/Logo.png'
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../../Provider/AuthContext';
+import { MdSpaceDashboard } from 'react-icons/md';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 const Navbar = () => {
 
@@ -83,9 +85,9 @@ const Navbar = () => {
                                         <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
                                     </div>
                                 </div>
-                                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                                    <li><Link to="/dashboard">Dashboard</Link></li>
-                                    <li><button onClick={handleUserLogout}>Logout</button></li>
+                                <ul tabIndex={0} className="menu menu-md bg-blue-50 dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                                    <li><Link to="/dashboard" className='text-blue-700' ><MdSpaceDashboard />Dashboard</Link></li>
+                                    <li><button onClick={handleUserLogout} className='text-red-700'><FaSignOutAlt />Logout</button></li>
                                 </ul>
                             </div>
                         ) : (

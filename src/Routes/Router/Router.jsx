@@ -16,6 +16,7 @@ import AllReviews from "../../Pages/Dashboard/AllReviews";
 import PaymentSuccessPage from "../../Pages/Payment/Payment Success Page/PaymentSuccessPage";
 import PaymentFailedPage from "../../Pages/Payment/Payment Failed Page/PaymentFailedPage";
 import MyReviews from "../../Pages/Dashboard/MyReviews";
+import MyApplications from "../../Pages/Dashboard/MyApplications";
 
 export const router = createBrowserRouter([
     {
@@ -43,11 +44,11 @@ export const router = createBrowserRouter([
                 element: <Register></Register>,
             },
             {
-                path: "payment-success/:id",
+                path: "payment-success",
                 element: <PaymentSuccessPage />,
             },
             {
-                path: "payment-cancelled/:id",
+                path: "payment-cancelled",
                 element: <PaymentFailedPage />,
             },
 
@@ -88,6 +89,10 @@ export const router = createBrowserRouter([
             {
                 path: "my-reviews",
                 element: <MyReviews></MyReviews>
+            },
+            {
+                path: "my-applications",
+                element: <MyApplications></MyApplications>
             },
         ]
     },
