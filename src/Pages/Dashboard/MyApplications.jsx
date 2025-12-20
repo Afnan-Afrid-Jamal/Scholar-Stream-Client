@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthContext';
 import { AiOutlineEye, AiOutlineEdit, AiOutlineDelete, AiOutlineDollarCircle, AiOutlineStar } from 'react-icons/ai';
+import Swal from 'sweetalert2';
+import { Link } from 'react-router';
 
 const MyApplications = () => {
     const { user } = useContext(AuthContext);
@@ -15,6 +17,98 @@ const MyApplications = () => {
                 .catch(err => console.log(err));
         }
     }, [user]);
+
+    // handle delete application data
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios
+                    .delete(`${import.meta.env.VITE_API_BASE_URL}/applications/${id}`)
+                    .then(() => {
+                        const remaining = showApplications.filter(app => app._id !== id);
+                        setShowApplications(remaining);
+
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Application has been deleted.",
+                            icon: "success"
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Failed to delete application.",
+                            icon: "error"
+                        });
+                    });
+            }
+        });
+    };
+
+    // handle pay
+    const handleApplyBtn = async (id) => {
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/create-checkout-session`, {
+                scholarshipId: id,
+                userEmail: user?.email,
+            });
+
+            if (res.data.url) {
+                window.location.href = res.data.url;
+            } else {
+                alert("Failed to create Stripe session.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error while creating checkout session.");
+        }
+    };
+
+    // Add review
+    const handleAddReview = async (event, scholarshipName, universityName) => {
+        const reviewData = {
+            scholarshipName,
+            universityName,
+            userName: user?.displayName,
+            userEmail: user?.email,
+            userImage: user?.photoURL,
+            ratingPoint: event.target.rating.value,
+            ratingComment: event.target.reviewText.value,
+            reviewDate: new Date()
+        };
+
+        try {
+            const res = await axios.post(
+                `${import.meta.env.VITE_API_BASE_URL}/add-your-review`,
+                reviewData
+            );
+
+            if (res.data.insertedId) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Review Submitted',
+                    text: 'Your review has been added successfully!',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to add review.',
+            });
+        }
+    };
 
     return (
         <div className="w-full mx-auto p-6">
@@ -56,15 +150,14 @@ const MyApplications = () => {
                                     <td className="px-4 py-3 text-sm font-semibold">{application.applicationStatus}</td>
                                     <td className="px-4 py-3">
                                         <div className="flex flex-wrap gap-2">
-
                                             {/* View Details Modal */}
-                                            {/* Open the modal using document.getElementById('ID').showModal() method */}
                                             <button className="btn btn-sm btn-outline btn-primary whitespace-nowrap" onClick={() => document.getElementById('my_modal_5').showModal()}>View</button>
                                             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                                                 <div className="modal-box w-full max-w-lg p-6">
                                                     <h2 className="text-2xl font-bold text-primary mb-4">{application.scholarshipName}</h2>
 
                                                     <div className="grid grid-cols-2 gap-3 mb-4 text-gray-700">
+                                                        {/* Other info */}
                                                         <div>
                                                             <p className="font-semibold">Applicant's Email</p>
                                                             <p>{application.userEmail}</p>
@@ -127,9 +220,65 @@ const MyApplications = () => {
                                                 </div>
                                             </dialog>
 
+                                            {/* Edit, Pay, Delete buttons */}
+                                            {application.applicationStatus === 'pending' && <button className="btn btn-sm btn-outline btn-primary whitespace-nowrap"> Edit </button>}
+                                            {application.applicationStatus === 'pending' && application.paymentStatus === 'unpaid' &&
+                                                <button
+                                                    onClick={() => handleApplyBtn(application.scholarshipId)}
+                                                    className="btn btn-sm btn-outline btn-primary"
+                                                >
+                                                    Pay
+                                                </button>
+                                            }
+                                            {application.applicationStatus === 'pending' &&
+                                                <button onClick={() => handleDelete(application._id)} className="btn btn-sm btn-outline btn-primary whitespace-nowrap"> Delete </button>
+                                            }
 
+                                            {/* Add Review Modal - Corrected */}
+                                            {application.applicationStatus === 'completed' &&
+                                                <>
+                                                    <button
+                                                        className="btn btn-sm btn-outline btn-primary whitespace-nowrap"
+                                                        onClick={() => document.getElementById(`review_modal_${application._id}`).showModal()}
+                                                    >
+                                                        Add review
+                                                    </button>
 
-                                            <button className="btn btn-sm btn-outline btn-primary whitespace-nowrap"> Edit </button> <button className="btn btn-sm btn-outline btn-primary whitespace-nowrap"> Pay </button> <button className="btn btn-sm btn-outline btn-primary whitespace-nowrap"> Delete </button> <button className="btn btn-sm btn-outline btn-primary whitespace-nowrap"> Add Review </button>
+                                                    <dialog id={`review_modal_${application._id}`} className="modal modal-bottom sm:modal-middle">
+                                                        <div className="modal-box">
+
+                                                            <form
+                                                                onSubmit={(event) => {
+                                                                    event.preventDefault();
+                                                                    handleAddReview(event, application.scholarshipName, application.universityName);
+                                                                    event.target.closest('dialog').close();
+                                                                }}
+                                                            >
+                                                                <div className="rating mb-4">
+                                                                    <input type="radio" name="rating" value={1} className="mask mask-star-2 bg-orange-400" />
+                                                                    <input type="radio" name="rating" value={2} className="mask mask-star-2 bg-orange-400" defaultChecked />
+                                                                    <input type="radio" name="rating" value={3} className="mask mask-star-2 bg-orange-400" />
+                                                                    <input type="radio" name="rating" value={4} className="mask mask-star-2 bg-orange-400" />
+                                                                    <input type="radio" name="rating" value={5} className="mask mask-star-2 bg-orange-400" />
+                                                                </div>
+
+                                                                <textarea
+                                                                    className="textarea textarea-bordered w-full mb-4"
+                                                                    placeholder="Write your review here..."
+                                                                    name='reviewText'
+                                                                    required
+                                                                ></textarea>
+
+                                                                <div className="modal-action">
+                                                                    <button type="button" className="btn" onClick={(e) => e.target.closest('dialog').close()}>Close</button>
+                                                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                    </dialog>
+                                                </>
+                                            }
                                         </div>
                                     </td>
                                 </tr>

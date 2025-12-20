@@ -56,7 +56,7 @@ const PaymentSuccessPage = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                     <Link
-                        to="/my-applications"
+                        to="/dashboard/my-applications"
                         className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-medium transition"
                     >
                         Go to My Applications
