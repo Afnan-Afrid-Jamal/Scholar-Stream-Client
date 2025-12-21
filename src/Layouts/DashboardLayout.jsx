@@ -7,7 +7,7 @@ import { NavLink, Outlet } from 'react-router'; // Link er poriborte NavLink
 import { AuthContext } from '../Provider/AuthContext';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { MdOutlineDescription, MdOutlineReviews } from 'react-icons/md';
+import { MdOutlineDescription, MdOutlineManageAccounts, MdOutlineReviews } from 'react-icons/md';
 
 const DashboardLayout = () => {
     const { user } = useContext(AuthContext);
@@ -90,12 +90,20 @@ const DashboardLayout = () => {
                         )}
 
                         {userData?.role === 'Moderator' && (
-                            <li>
-                                <NavLink to="/dashboard/all-reviews" className={({ isActive }) => `${isActive ? activeLink : ""} is-drawer-close:tooltip is-drawer-close:tooltip-right`} data-tip="Reviews">
-                                    <MdOutlineReviews size={30} />
-                                    <span className="is-drawer-close:hidden">Reviews</span>
-                                </NavLink>
-                            </li>
+                            <>
+                                <li>
+                                    <NavLink to="/dashboard/all-reviews" className={({ isActive }) => `${isActive ? activeLink : ""} is-drawer-close:tooltip is-drawer-close:tooltip-right`} data-tip="Reviews">
+                                        <MdOutlineReviews size={30} />
+                                        <span className="is-drawer-close:hidden">Reviews</span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/manage-applications" className={({ isActive }) => `${isActive ? activeLink : ""} is-drawer-close:tooltip is-drawer-close:tooltip-right`} data-tip="Manage Applications">
+                                        <MdOutlineManageAccounts size={30} />
+                                        <span className="is-drawer-close:hidden">Manage Applications</span>
+                                    </NavLink>
+                                </li>
+                            </>
                         )}
 
                         {userData?.role === 'Student' && (
