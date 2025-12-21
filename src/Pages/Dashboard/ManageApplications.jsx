@@ -49,7 +49,7 @@ const ManageApplications = () => {
                         // Update local state
                         setShowApplications(prev =>
                             prev.map(app =>
-                                app._id === id ? { ...app, applicationStatus: "cancel" } : app
+                                app._id === id ? { ...app, applicationStatus: "rejected" } : app
                             )
                         );
 
@@ -77,6 +77,42 @@ const ManageApplications = () => {
 
 
 
+    // Handle Status
+    const handleStatus = (event, id) => {
+        const newStatus = event.target.value;
+
+        axios.patch(`${import.meta.env.VITE_API_BASE_URL}/update-applicationStatus/${id}`, { applicationStatus: newStatus })
+            .then(res => {
+                // Update local state
+                setShowApplications(prev =>
+                    prev.map(app =>
+                        app._id === id ? { ...app, applicationStatus: newStatus } : app
+                    )
+                );
+
+                Swal.fire({
+                    title: "Status Updated!",
+                    text: `Application status has been changed to "${newStatus}".`,
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire({
+                    title: "Oops!",
+                    text: "Failed to update status. Please try again.",
+                    icon: "error",
+                    confirmButtonColor: "#d33",
+                    confirmButtonText: "OK"
+                });
+            });
+    }
+
+
+
+
 
     return (
         <div className="p-6">
@@ -86,7 +122,7 @@ const ManageApplications = () => {
 
             <div className="overflow-x-auto">
                 <table className="min-w-full border border-gray-200 rounded-lg">
-                    <thead className="bg-gray-100">
+                    <thead className="bg-blue-400">
                         <tr className="text-sm font-semibold text-gray-700">
                             <th className="px-4 py-3 border">Applicant Name</th>
                             <th className="px-4 py-3 border">Applicant Email</th>
@@ -98,7 +134,7 @@ const ManageApplications = () => {
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody className='bg-blue-50'>
                         {showApplications.map(application => (
                             <tr key={application._id} className="text-sm hover:bg-gray-50">
                                 <td className="px-4 py-3 border">{application.userName || "N/A"}</td>
@@ -106,8 +142,20 @@ const ManageApplications = () => {
                                 <td className="px-4 py-3 border">{application.universityName}</td>
                                 <td className="px-4 py-3 border">{application.feedback || "No feedback"}</td>
                                 <td className="px-4 py-3 border">
-                                    <span className="badge badge-warning badge-sm">{application.applicationStatus}</span>
+                                    <span
+                                        className={`badge badge-sm ${application.applicationStatus === "processing"
+                                            ? "bg-blue-500 text-white"
+                                            : application.applicationStatus === "rejected"
+                                                ? "bg-red-500 text-white"
+                                                : application.applicationStatus === "completed"
+                                                    ? "bg-green-500 text-white"
+                                                    : "bg-gray-400 text-white" // default
+                                            }`}
+                                    >
+                                        {application.applicationStatus}
+                                    </span>
                                 </td>
+
                                 <td className="px-4 py-3 border">
                                     <span className={`badge badge-sm ${application.paymentStatus === "paid" ? "badge-success" : "badge-error"}`}>
                                         {application.paymentStatus}
@@ -267,11 +315,23 @@ const ManageApplications = () => {
                                             </div>
                                         </dialog>
 
-                                        <button className="btn btn-xs btn-outline btn-success">Update</button>
+                                        {/* Update status */}
+
+
+                                        <select
+                                            onChange={(e) => handleStatus(e, application._id)}
+                                            className="select select-bordered select-sm"
+                                            value={application.applicationStatus} // default value hisebe current status
+                                        >
+                                            <option >{application.applicationStatus}</option>
+                                            <option value="processing">Processing</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+
                                         <button
                                             onClick={() => handleCancel(application._id)}
                                             className="btn btn-xs btn-outline btn-error"
-                                            disabled={application.applicationStatus === "cancel"}
+                                            disabled={application.applicationStatus === "rejected"}
                                         >
                                             Cancel
                                         </button>
