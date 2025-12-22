@@ -2,9 +2,10 @@ import React, { useContext, useState } from 'react';
 import { FaGoogle } from 'react-icons/fa6';
 import { uploadImage } from '../../Utils';
 import { AuthContext } from '../../Provider/AuthContext';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const Register = () => {
 
@@ -58,11 +59,25 @@ const Register = () => {
         try {
             await customCreateUserWithEmailAndPassword(email, password, name, photoURL);
             await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, registerFormData);
+            Swal.fire({
+                icon: "success",
+                title: "Registration Successful",
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+
+            navigate(from, { replace: true });
         } catch (error) {
             console.log(error);
         }
     };
 
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/";
 
     //Google signup
     const handleGoogleSignUp = async () => {
@@ -81,8 +96,25 @@ const Register = () => {
                 registerFormData
             );
 
+
+            Swal.fire({
+                icon: "success",
+                title: "Registration Successful",
+                text: `Welcome, ${googleUser.displayName}!`,
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+
+            navigate(from, { replace: true });
+
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            Swal.fire({
+                icon: "error",
+                title: "Registration Failed",
+                text: error.message,
+            });
         }
     };
 

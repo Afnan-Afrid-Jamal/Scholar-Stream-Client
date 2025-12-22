@@ -1,19 +1,25 @@
 import React, { useContext } from 'react';
 import { FaGoogle } from 'react-icons/fa6';
 import { AuthContext } from '../../Provider/AuthContext';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
     const { user, customGoogleSignIn, customLoginWithEmailAndPassword } = useContext(AuthContext);
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
+
+    const from = location.state?.from?.pathname || "/";
 
     // Google signin
     const handleGoogleSignIn = async () => {
         try {
-            const result = await customGoogleSignIn();   // 🔥 await
-            const googleUser = result.user;              // 🔥 direct user
+            const result = await customGoogleSignIn();
+            const googleUser = result.user;
 
             const registerFormData = {
                 name: googleUser.displayName,
@@ -21,27 +27,63 @@ const Login = () => {
                 photoURL: googleUser.photoURL,
             };
 
+
             await axios.post(
                 `${import.meta.env.VITE_API_BASE_URL}/register`,
                 registerFormData
             );
 
+
+            Swal.fire({
+                icon: "success",
+                title: "Login Successful",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+
+            navigate(from, { replace: true });
+
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong with Google Sign-In!",
+            });
         }
     };
-
     // Email,Password SignIn
-    const handleSignInWithForm = (event) => {
+    const handleSignInWithForm = async (event) => {
+        event.preventDefault();
 
         const email = event.target.email.value;
         const password = event.target.password.value;
 
+        try {
+            const result = await customLoginWithEmailAndPassword(email, password);
+            const user = result.user;
 
-        customLoginWithEmailAndPassword(email, password)
-        console.log(user)
 
-    }
+            Swal.fire({
+                icon: "success",
+                title: "Logged in successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+
+            navigate(from, { replace: true });
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: "error",
+                title: "Login Failed",
+                text: error.message,
+            });
+        }
+    };
 
 
 

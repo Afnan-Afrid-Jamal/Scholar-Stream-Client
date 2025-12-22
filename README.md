@@ -1,16 +1,76 @@
-# React + Vite
+# ScholarStream
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**ScholarStream** is a full-stack MERN (MongoDB, Express, React, Node.js) application designed to connect students with scholarship opportunities. It simplifies the process of finding financial aid for education and provides an organized platform for administrators to manage applications efficiently.
 
-Currently, two official plugins are available:
+## Live URL
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+## Purpose
+The purpose of ScholarStream is to create a centralized platform where:
+- Students can browse and apply for scholarships easily.
+- Universities or organizations can post scholarship opportunities.
+- Moderators can review applications, provide feedback, and update statuses.
+- Admins can manage users, scholarships, and view analytics to make data-driven decisions.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Key Features
+### Student
+- Browse all scholarships in a responsive grid.
+- Search scholarships by name, university, or degree.
+- Filter scholarships by category, subject, or location.
+- Apply for scholarships and make secure payments via Stripe.
+- View application status and feedback from moderators.
+- Add and manage reviews for scholarships.
+- Dashboard to manage personal profile, applications, and reviews.
 
-## Expanding the ESLint configuration
+### Moderator
+- Manage submitted applications.
+- Provide feedback and update application status (Processing/Completed/Rejected).
+- Review and moderate student reviews.
+- View detailed application information in modals.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Admin
+- Add, update, and delete scholarships.
+- Manage users and change roles (Student, Moderator, Admin).
+- View analytics with charts for total users, fees collected, and scholarship distribution.
+- Dashboard with visual data representation.
+
+### General Features
+- Authentication system with email/password and social login (Google).
+- Role-based dashboards with conditional sidebar links.
+- Responsive and modern UI built with **DaisyUI** and **Tailwind CSS**.
+- Loading spinners/skeletons for data-fetching pages.
+- Custom 404 Error page.
+- JWT token verification for secure API calls.
+- Server-side search, filter, sort, and pagination.
+
+## Data Collections
+- **Users**: name, email, photoURL, role.
+- **Scholarships**: scholarshipName, universityName, image, country, city, world rank, category, degree, fees, deadlines, postedUserEmail.
+- **Applications**: scholarshipId, userId, userName, application fees, service charge, status, payment status, feedback.
+- **Reviews**: scholarshipId, universityName, userName, rating, comment, reviewDate.
+
+## Technologies / NPM Packages Used
+- **Frontend**:
+  - React
+  - React Router
+  - DaisyUI / Tailwind CSS
+  - Framer Motion
+  - Axios
+  - React Icons
+  - Stripe React SDK
+
+- **Backend**:
+  - Node.js
+  - Express.js
+  - MongoDB & Mongoose
+  - JWT (jsonwebtoken)
+  - Cors
+  - Dotenv
+
+- **Other Tools**:
+  - Firebase Authentication
+  - SweetAlert2 (for alerts and confirmations)
+
+
+## Author
+- **Your Name** – Afnan Afrid Jamal

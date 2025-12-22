@@ -18,6 +18,7 @@ import PaymentFailedPage from "../../Pages/Payment/Payment Failed Page/PaymentFa
 import MyReviews from "../../Pages/Dashboard/MyReviews";
 import MyApplications from "../../Pages/Dashboard/MyApplications";
 import ManageApplications from "../../Pages/Dashboard/ManageApplications";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -46,11 +47,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "payment-success",
-                element: <PaymentSuccessPage />,
+                element: <PrivateRoute><PaymentSuccessPage /></PrivateRoute>,
             },
             {
                 path: "payment-cancelled",
-                element: <PaymentFailedPage />,
+                element: <PrivateRoute><PaymentFailedPage /></PrivateRoute>,
             },
 
         ],
@@ -61,43 +62,43 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <MyProfile></MyProfile>
+                element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>
             },
             {
                 path: "my-profile",
-                element: <MyProfile></MyProfile>
+                element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>
             },
             {
                 path: "add-scholarship",
-                element: <AddScholarship></AddScholarship>
+                element: <PrivateRoute><AddScholarship></AddScholarship></PrivateRoute>
             },
             {
                 path: "manage-scholarships",
-                element: <ManageScholarships></ManageScholarships>
+                element: <PrivateRoute><ManageScholarships></ManageScholarships></PrivateRoute>
             },
             {
                 path: "manage-users",
-                element: <ManageUsers></ManageUsers>
+                element: <PrivateRoute><ManageUsers></ManageUsers></PrivateRoute>
             },
             {
                 path: "analytics",
-                element: <Analytics></Analytics>
+                element: <PrivateRoute><Analytics></Analytics></PrivateRoute>
             },
             {
                 path: "all-reviews",
-                element: <AllReviews></AllReviews>
+                element: <PrivateRoute><AllReviews></AllReviews></PrivateRoute>
             },
             {
                 path: "my-reviews",
-                element: <MyReviews></MyReviews>
+                element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute>
             },
             {
                 path: "my-applications",
-                element: <MyApplications></MyApplications>
+                element: <PrivateRoute><MyApplications></MyApplications></PrivateRoute>
             },
             {
                 path: "manage-applications",
-                element: <ManageApplications></ManageApplications>
+                element: <PrivateRoute><ManageApplications></ManageApplications></PrivateRoute>
             },
         ]
     },
