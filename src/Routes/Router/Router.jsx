@@ -19,6 +19,8 @@ import MyReviews from "../../Pages/Dashboard/MyReviews";
 import MyApplications from "../../Pages/Dashboard/MyApplications";
 import ManageApplications from "../../Pages/Dashboard/ManageApplications";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import AdminPrivateRoute from "../PrivateRoute/AdminPrivateRoute";
+import ModeratorPrivateRoute from "../PrivateRoute/ModeratorPrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -47,11 +49,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "payment-success",
-                element: <PrivateRoute><PaymentSuccessPage /></PrivateRoute>,
+                element: <PaymentSuccessPage />,
             },
             {
                 path: "payment-cancelled",
-                element: <PrivateRoute><PaymentFailedPage /></PrivateRoute>,
+                element: <PaymentFailedPage />,
             },
 
         ],
@@ -70,23 +72,23 @@ export const router = createBrowserRouter([
             },
             {
                 path: "add-scholarship",
-                element: <PrivateRoute><AddScholarship></AddScholarship></PrivateRoute>
+                element: <AdminPrivateRoute><AddScholarship></AddScholarship></AdminPrivateRoute>
             },
             {
                 path: "manage-scholarships",
-                element: <PrivateRoute><ManageScholarships></ManageScholarships></PrivateRoute>
+                element: <AdminPrivateRoute><ManageScholarships></ManageScholarships></AdminPrivateRoute>
             },
             {
                 path: "manage-users",
-                element: <PrivateRoute><ManageUsers></ManageUsers></PrivateRoute>
+                element: <AdminPrivateRoute><ManageUsers></ManageUsers></AdminPrivateRoute>
             },
             {
                 path: "analytics",
-                element: <PrivateRoute><Analytics></Analytics></PrivateRoute>
+                element: <AdminPrivateRoute><Analytics></Analytics></AdminPrivateRoute>
             },
             {
                 path: "all-reviews",
-                element: <PrivateRoute><AllReviews></AllReviews></PrivateRoute>
+                element: <ModeratorPrivateRoute><AllReviews></AllReviews></ModeratorPrivateRoute>
             },
             {
                 path: "my-reviews",
@@ -98,7 +100,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "manage-applications",
-                element: <PrivateRoute><ManageApplications></ManageApplications></PrivateRoute>
+                element: <ModeratorPrivateRoute><ManageApplications></ManageApplications></ModeratorPrivateRoute>
             },
         ]
     },

@@ -25,7 +25,7 @@ const AllReviews = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-        }).then(async (result) => {  // ✅ async added here
+        }).then(async (result) => { 
             if (result.isConfirmed) {
                 try {
                     await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/deleteReview/${id}`);

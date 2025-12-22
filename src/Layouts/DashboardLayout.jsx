@@ -3,7 +3,7 @@ import { CgProfile } from 'react-icons/cg';
 import { HiOutlineAcademicCap, HiOutlineChartBar, HiOutlineUsers } from 'react-icons/hi';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { IoHomeOutline } from 'react-icons/io5';
-import { NavLink, Outlet } from 'react-router'; // Link er poriborte NavLink
+import { NavLink, Outlet } from 'react-router';
 import { AuthContext } from '../Provider/AuthContext';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
@@ -23,7 +23,7 @@ const DashboardLayout = () => {
         enabled: !!user?.email,
     });
 
-    // Active link er jonno style ba class
+
     const activeLink = "bg-blue-600 text-white !important";
 
     return (

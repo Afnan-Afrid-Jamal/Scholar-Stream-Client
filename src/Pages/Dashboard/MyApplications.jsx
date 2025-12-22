@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthContext';
-import { AiOutlineEye, AiOutlineEdit, AiOutlineDelete, AiOutlineDollarCircle, AiOutlineStar } from 'react-icons/ai';
+
 import Swal from 'sweetalert2';
 import { Link } from 'react-router';
 

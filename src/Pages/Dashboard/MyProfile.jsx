@@ -12,7 +12,7 @@ const MyProfile = () => {
         queryKey: ["userData", user?.email],
         queryFn: async () => {
             const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/user`, {
-                params: { email: user?.email }, // <-- query params
+                params: { email: user?.email },
             });
             return res.data;
         },

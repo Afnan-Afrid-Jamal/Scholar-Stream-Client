@@ -14,7 +14,7 @@ const PaymentSuccessPage = () => {
             axios
                 .patch(`${import.meta.env.VITE_API_BASE_URL}/payment-success`, { sessionId: session_id })
                 .then(() => {
-                    // Fetch application details after payment
+
                     axios
                         .get(`${import.meta.env.VITE_API_BASE_URL}/application-by-session?sessionId=${session_id}`)
                         .then(res => setApplication(res.data))

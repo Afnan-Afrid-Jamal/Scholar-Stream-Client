@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
-import { uploadImage } from "../../Utils"; // 💡 আপনার ইমপোর্ট করা ফাংশনটি ব্যবহার করা হলো
+import { uploadImage } from "../../Utils";
 
 const AddScholarship = () => {
     const { user } = useContext(AuthContext);
@@ -12,20 +12,19 @@ const AddScholarship = () => {
         e.preventDefault();
         const form = e.target;
 
-        // 💡 সংশোধিত ১: ফাইল ইনপুট থেকে ফাইল এবং URL ইনপুট থেকে URL ডেটা নেওয়া
-        const fileInput = form.imageFile.files[0];
-        const urlInput = form.universityImageUrl.value.trim(); // URL ইনপুট থেকে মান নিন
 
-        // 💡 AddScholarship এর ক্ষেত্রে, currentImageUrl অপ্রয়োজনীয়।
-        // finalImageUrl হবে হয় আপলোড করা নতুন URL, নয়তো সরাসরি URL ইনপুটের মান।
+        const fileInput = form.imageFile.files[0];
+        const urlInput = form.universityImageUrl.value.trim();
+
+
         let finalImageUrl = urlInput;
 
-        // 💡 সংশোধিত ২: ইমেজ আপলোড লজিক
+
         if (fileInput) {
             toast.info("Uploading university image...");
 
             try {
-                // uploadImage ফাংশনটি কল করা হচ্ছে
+
                 const newPhotoURL = await uploadImage(fileInput);
 
                 if (newPhotoURL) {
@@ -33,28 +32,28 @@ const AddScholarship = () => {
                     toast.success("Image uploaded successfully!");
                 } else {
                     toast.error("Image upload failed. Please use a direct URL.");
-                    return; // আপলোড ব্যর্থ হলে সাবমিট বন্ধ করুন
+                    return;
                 }
             } catch (uploadError) {
                 console.error("Upload failed:", uploadError);
                 toast.error("Error during image upload. Please try again.");
-                return; // আপলোড ব্যর্থ হলে সাবমিট বন্ধ করুন
+                return;
             }
         } else if (!urlInput) {
-            // যদি ফাইলও না থাকে, URLও না থাকে, তবে থামান
+
             toast.error("Please provide either a University Image URL or upload a file.");
             return;
         }
 
-        // 💡 সংশোধিত ৩: scholarshipData অবজেক্ট তৈরি
+
         const scholarshipData = {
             scholarshipName: form.scholarshipName.value.trim(),
             universityName: form.universityName.value.trim(),
-            // 💡 finalImageUrl ব্যবহার করা হচ্ছে, যা URL বা আপলোড করা URL যেকোনো একটি হবে
+
             universityImage: finalImageUrl,
             universityCountry: form.universityCountry.value.trim(),
             universityCity: form.universityCity.value.trim(),
-            // ফাঁকা থাকলে undefined না করে parseInt ব্যবহার করলে NaN হতে পারে, তাই সুরক্ষা দিন
+
             universityWorldRank: form.universityWorldRank.value ? parseInt(form.universityWorldRank.value) : 0,
             subjectCategory: form.subjectCategory.value,
             scholarshipCategory: form.scholarshipCategory.value,
@@ -71,7 +70,7 @@ const AddScholarship = () => {
             const res = await axiosSecure.post("/add-scholarship", scholarshipData);
             console.log("Scholarship added:", res.data);
             toast.success("Scholarship published successfully!")
-            form.reset(); // Clear the form
+            form.reset();
         } catch (err) {
             console.error(err);
             toast.error("Failed to add scholarship. Please try again!");
@@ -99,13 +98,13 @@ const AddScholarship = () => {
                         <input type="text" name="universityName" className="input input-bordered w-full" required />
                     </div>
 
-                    {/* 💡 University Image (URL) - নতুন নাম: universityImageUrl */}
+
                     <div>
                         <label className="label font-medium">University Image (URL)</label>
                         <input type="url" name="universityImageUrl" className="input input-bordered w-full" placeholder="Enter direct image URL" />
                     </div>
 
-                    {/* 💡 Image File Upload - নতুন নাম: imageFile */}
+
                     <div className="flex flex-col">
                         <label className="label font-medium">OR Upload Image File</label>
                         <input type="file" name="imageFile" accept="image/*" className="file-input w-full file-input-md file-input-bordered" />
