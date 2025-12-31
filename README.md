@@ -73,7 +73,6 @@ The purpose of ScholarStream is to create a centralized platform where:
   - Node.js
   - Express.js
   - MongoDB & Mongoose
-  - JWT (jsonwebtoken)
   - Cors
   - Dotenv
 
