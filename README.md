@@ -82,4 +82,4 @@ The purpose of ScholarStream is to create a centralized platform where:
 
 ## Author
 
-- **Your Name** – Afnan Afrid Jamal
+- **Afnan Afrid Jamal** 
