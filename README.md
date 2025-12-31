@@ -82,4 +82,9 @@ The purpose of ScholarStream is to create a centralized platform where:
 
 ## Author
 
-- **Afnan Afrid Jamal** 
+- **Afnan Afrid Jamal**
+
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/Afnan-Afrid-Jamal/ScholarStream.git](https://github.com/Afnan-Afrid-Jamal/ScholarStream.git)
+cd ScholarStream
