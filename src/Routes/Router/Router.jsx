@@ -21,6 +21,10 @@ import ManageApplications from "../../Pages/Dashboard/ManageApplications";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import AdminPrivateRoute from "../PrivateRoute/AdminPrivateRoute";
 import ModeratorPrivateRoute from "../PrivateRoute/ModeratorPrivateRoute";
+import AboutUs from "../../Pages/About Us/AboutUs";
+import ContactUs from "../../Pages/Contact Us/ContactUs";
+import AllBlogs from "../../Pages/AllBlogs/AllBlogs";
+import ViewBlogDetails from "../../Pages/View Blog Details/ViewBlogDetails";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +42,22 @@ export const router = createBrowserRouter([
             {
                 path: "scholarship-details/:id",
                 element: <ScholarshipDetails></ScholarshipDetails>,
+            },
+            {
+                path: "about-us",
+                element: <AboutUs></AboutUs>,
+            },
+            {
+                path: "contact-us",
+                element: <ContactUs />,
+            },
+            {
+                path: "all-blogs",
+                element: <AllBlogs />,
+            },
+            {
+                path: "blog-details/:id",
+                element: <ViewBlogDetails />,
             },
             {
                 path: "login",

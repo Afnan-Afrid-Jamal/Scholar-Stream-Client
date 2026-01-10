@@ -25,6 +25,14 @@ const Navbar = () => {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow-xl bg-base-100 rounded-box w-52 z-[50]">
                             <li><NavLink to="/" className="text-black">Home</NavLink></li>
                             <li><NavLink to="/all-scholarships" className="text-black">All Scholarships</NavLink></li>
+                            <li><NavLink to="/about-us" className="text-black">About Us</NavLink></li>
+                            <li><NavLink to="/contact-us" className="text-black">Contact Us</NavLink></li>
+                            <li><NavLink to="/all-blogs" className="text-black">All Blogs</NavLink></li>
+                            {
+
+                                user && <li><NavLink to="/dashboard" className={navLinkClass}>Dashboard</NavLink></li>
+
+                            }
                             {!user && (
                                 <div className="flex flex-col gap-2 mt-2 border-t pt-2">
                                     <Link to="/login" className="btn btn-sm btn-primary">Login</Link>
@@ -44,6 +52,12 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal gap-2 text-white font-medium">
                         <li><NavLink to="/" className={navLinkClass}>Home</NavLink></li>
                         <li><NavLink to="/all-scholarships" className={navLinkClass}>All Scholarships</NavLink></li>
+                        <li><NavLink to="/about-us" className={navLinkClass}>About Us</NavLink></li>
+                        <li><NavLink to="/contact-us" className={navLinkClass}>Contact Us</NavLink></li>
+                        <li><NavLink to="/all-blogs" className={navLinkClass}>Blogs</NavLink></li>
+                        {
+                            user && <li><NavLink to="/dashboard" className={navLinkClass}>Dashboard</NavLink></li>
+                        }
                     </ul>
                 </div>
 
